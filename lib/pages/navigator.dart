@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first/pages/list/list.dart';
+import 'package:flutter_first/pages/saved/saved.dart';
 
 import '../common/toast.dart';
 import 'home/home.dart';
@@ -26,12 +27,23 @@ class _MainState extends State<Main> {
       ),
     )
   ];
+  final _titles = [
+    const Text("Home"),
+    const Text("List Item"),
+    const Text("Hello!")
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("List Item"),
+        title: _titles[_currentItem],
+        actions: [
+          IconButton(
+              onPressed: _pushSaved,
+              icon: const Icon(Icons.list),
+          )
+        ],
       ),
       body: Center(
         child: _pages[_currentItem],
@@ -59,6 +71,14 @@ class _MainState extends State<Main> {
           )
         ],
       ),
+    );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return const SavedWords();
+      })
     );
   }
 }

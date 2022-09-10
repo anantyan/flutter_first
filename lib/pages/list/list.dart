@@ -1,6 +1,10 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
+final saved = <WordPair>{};
+final _suggestions = <WordPair>[];
+const biggerFont = TextStyle(fontSize: 18);
+
 class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
 
@@ -9,10 +13,6 @@ class RandomWords extends StatefulWidget {
 }
 
 class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _saved = <WordPair>{};
-  final _biggerFont = const TextStyle(fontSize: 18);
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -24,12 +24,12 @@ class _RandomWordsState extends State<RandomWords> {
           if (index >= _suggestions.length) {
             _suggestions.addAll(generateWordPairs().take(10));
           }
-          final alreadySaved = _saved.contains(_suggestions[index]);
+          final alreadySaved = saved.contains(_suggestions[index]);
 
           return ListTile(
             title: Text(
               _suggestions[index].asPascalCase,
-              style: _biggerFont,
+              style: biggerFont,
             ),
             trailing: Icon(
               alreadySaved ? Icons.favorite : Icons.favorite_border,
@@ -39,9 +39,9 @@ class _RandomWordsState extends State<RandomWords> {
             onTap: () {
               setState(() {
                 if (alreadySaved) {
-                  _saved.remove(_suggestions[index]);
+                  saved.remove(_suggestions[index]);
                 } else {
-                  _saved.add(_suggestions[index]);
+                  saved.add(_suggestions[index]);
                 }
               });
             },
